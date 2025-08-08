@@ -1,0 +1,37 @@
+<!-- DEBUG -->
+<section id="view-debug" class="hidden grid">
+  <div class="card"><div class="pad">
+    <h2>Felsökning</h2>
+    <p class="muted">Kör ett snabbt test av API-nycklar och uppkoppling mot OpenAI & USDA.</p>
+    <button class="btn" id="runDiagBtn">Kör test</button>
+    <div class="spacer"></div>
+    <pre id="diagOutput" style="white-space:pre-wrap;background:#0f172a;color:#e5e7eb;padding:12px;border-radius:10px;min-height:100px">Ingen körning ännu.</pre>
+  </div></div>
+</section>
+<script>
+// --- Diagnostics UI ---
+const runDiagBtn = document.getElementById('runDiagBtn');
+const diagOutput = document.getElementById('diagOutput');
+if(runDiagBtn){
+  runDiagBtn.addEventListener('click', async ()=>{
+    diagOutput.textContent = 'Kör tester…';
+    try{
+      const r = await fetch('/api/diagnostics');
+      const j = await r.json();
+      const lines = [];
+      lines.push('ENV:');
+      lines.push('  OPENAI_API_KEY: ' + (j.env?.OPENAI_API_KEY ? '✅ satt' : '❌ saknas'));
+      lines.push('  USDA_API_KEY:   ' + (j.env?.USDA_API_KEY   ? '✅ satt' : '❌ saknas'));
+      lines.push('\nOpenAI:');
+      lines.push('  ok: ' + (j.openai?.ok ? '✅' : '❌') + '  status: ' + (j.openai?.status ?? '—'));
+      if(j.openai?.error) lines.push('  error: ' + j.openai.error);
+      lines.push('\nUSDA:');
+      lines.push('  ok: ' + (j.usda?.ok ? '✅' : '❌') + '  status: ' + (j.usda?.status ?? '—'));
+      if(j.usda?.error) lines.push('  error: ' + j.usda.error);
+      diagOutput.textContent = lines.join('\n');
+    }catch(e){
+      diagOutput.textContent = 'Kunde inte köra diagnostics: ' + e;
+    }
+  });
+}
+</script>
