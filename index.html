@@ -90,7 +90,7 @@
     <section id="view-kamera" class="grid">
       <div class="card"><div class="pad">
         <h2>Fota din mat</h2>
-        <p class="muted">Ladda upp ett foto. För demo använder vi en enkel AI‑mock som gissar mat & kalorier – du kan justera innan du sparar.</p>
+        <p class="muted">Ladda upp ett foto. För demo använder vi en enkel AI-mock som gissar mat & kalorier – du kan justera innan du sparar.</p>
         <input type="file" id="photoInput" accept="image/*" capture="environment" />
         <div class="spacer"></div>
         <img id="photoPreview" class="preview hidden" alt="Förhandsvisning" />
@@ -157,7 +157,7 @@
     <section id="view-coach" class="hidden grid">
       <div class="card"><div class="pad">
         <h2>Latmasken coach</h2>
-        <p class="muted">I denna demo kör vi en regelbaserad coach. I riktiga systemet byts den mot GPT‑driven coach med personlig ton.</p>
+        <p class="muted">I denna demo kör vi en regelbaserad coach. I riktiga systemet byts den mot GPT-driven coach med personlig ton.</p>
         <div id="coachOutput" class="card" style="border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0"><div class="pad"></div></div>
         <div class="spacer"></div>
         <button class="btn" id="refreshCoach">Uppdatera coach</button>
@@ -169,7 +169,7 @@
       <div class="card"><div class="pad">
         <h2>Konto</h2>
         <div class="row">
-          <input id="emailInput" type="email" placeholder="E‑post (demo – lokal)" />
+          <input id="emailInput" type="email" placeholder="E-post (demo – lokal)" />
           <button class="btn" id="saveEmailBtn">Spara</button>
         </div>
         <p class="muted">Demo-läge: vi sparar allt lokalt i din webbläsare (localStorage). Inget skickas upp till server.</p>
@@ -299,6 +299,8 @@ const recentMeals = document.getElementById('recentMeals')
 
 photoInput.addEventListener('change', ev=>{
   const f = ev.target.files?.[0]
+  // Rensa fält varje gång man tar nytt foto
+  foodName.value=''; foodKcal.value='';
   if(!f){ photoPreview.classList.add('hidden'); return }
   const url = URL.createObjectURL(f)
   photoPreview.src = url
@@ -313,24 +315,37 @@ foodGuess.addEventListener('change', ()=>{
 })
 
 analyzeBtn.addEventListener('click', ()=>{
-  // enkel mock: om inget valt, välj slump från listan
-  if(!foodName.value || !foodKcal.value){
-    const opts = ['Pizza|850','Kycklingsallad|420','Sushi 8 bitar|600','Pasta carbonara|950','Havregrynsgröt|320']
-    const pick = opts[Math.floor(Math.random()*opts.length)].split('|')
-    foodName.value = pick[0]
-    foodKcal.value = pick[1]
-  }
-  toast(`AI (mock): ${foodName.value} ~ ${foodKcal.value} kcal`)
+  // Simulerad AI-analys med tydlig feedback och liten fördröjning
+  analyzeBtn.disabled = true; const orig = analyzeBtn.textContent; analyzeBtn.textContent = 'Analyserar…';
+  setTimeout(()=>{
+    // Välj det som är valt i dropdown, annars slumpa ett vettigt förslag
+    let pair = foodGuess?.value || ''
+    if(!pair || pair.startsWith('Eget val')){
+      const opts = ['Pizza|850','Kycklingsallad|420','Sushi 8 bitar|600','Pasta carbonara|950','Havregrynsgröt|320']
+      pair = opts[Math.floor(Math.random()*opts.length)]
+    }
+    const [n,k] = pair.split('|')
+    foodName.value = n; foodKcal.value = k
+    toast(`AI (mock): ${n} ~ ${k} kcal`)
+    analyzeBtn.disabled = false; analyzeBtn.textContent = orig
+    saveMealBtn.focus()
+  }, 800)
 })
 
 saveMealBtn.addEventListener('click', ()=>{
   const name = foodName.value?.trim(); const kcal = Number(foodKcal.value||0)
-  if(!name || !kcal){ return toast('Fyll i maträtt och kcal först.')} 
+  if(!name || !kcal){ return toast('Fyll i maträtt och kcal först.') }
   const items = DB.meals
   items.push({ name, kcal, date: new Date().toISOString() })
   DB.meals = items
+  // rensa inputs & preview
   foodName.value=''; foodKcal.value=''; photoInput.value=''; photoPreview.classList.add('hidden')
+  // uppdatera vyer
   renderMeals(); renderHome(); updateCoach();
+  // hoppa till Hem så man ser summering direkt
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'))
+  document.querySelector('[data-tab="hem"]').classList.add('active')
+  Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!=='hem'))
   toast('Måltid sparad!')
 })
 
@@ -360,10 +375,8 @@ function renderChart(){
     return
   }
   const values = data.map(d=>Number(d.value))
-  const labels = data.map(d=>new Date(d.date))
-  const W = canvas.width, H = canvas.height
-  # Skala för pixel-density
-  dpr = window.devicePixelRatio or 1
+  // Skala för pixel-density
+  const dpr = window.devicePixelRatio||1
   canvas.width = canvas.clientWidth * dpr
   canvas.height = canvas.clientHeight * dpr
   ctx.scale(dpr,dpr)
@@ -373,10 +386,10 @@ function renderChart(){
   const min = Math.min(...values)
   const max = Math.max(...values)
   const rng = (max-min)||1
-  # Bakgrundsram
+  // Bakgrundsram
   ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1
   ctx.strokeRect(PAD, PAD, w, h)
-  # Linjegraf
+  // Linjegraf
   ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2
   ctx.beginPath()
   values.forEach((v,i)=>{
@@ -385,7 +398,7 @@ function renderChart(){
     if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y)
   })
   ctx.stroke()
-  # Punkter
+  // Punkter
   ctx.fillStyle = '#2563eb'
   values.forEach((v,i)=>{
     const x = PAD + (i/(values.length-1))*w
@@ -448,7 +461,7 @@ const emailInput = document.getElementById('emailInput')
 const saveEmailBtn = document.getElementById('saveEmailBtn')
 const resetAllBtn = document.getElementById('resetAllBtn')
 
-saveEmailBtn.addEventListener('click',()=>{ DB.email = emailInput.value||''; toast('E‑post sparad (lokalt).') })
+saveEmailBtn.addEventListener('click',()=>{ DB.email = emailInput.value||''; toast('E-post sparad (lokalt).') })
 resetAllBtn.addEventListener('click',()=>{ if(confirm('Rensa all demodata?')){ DB.reset(); location.reload() } })
 
 // ======= UI HELPERS =======
