@@ -8,11 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#f6f8fb; --card:#ffffff; --text:#0f172a; --muted:#64748b; --brand:#2563eb; --ok:#16a34a; --warn:#f59e0b; --danger:#ef4444; --ring:#93c5fd;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    :root{ --bg:#f6f8fb; --card:#fff; --text:#0f172a; --muted:#64748b; --brand:#2563eb; --ring:#93c5fd; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
     header{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid #e5e7eb}
     .container{max-width:960px;margin:0 auto;padding:16px}
     .brand{display:flex;align-items:center;gap:12px}
@@ -25,18 +22,12 @@
     @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
     .card{background:var(--card);border-radius:14px;box-shadow:0 8px 24px #00000010;border:1px solid #e5e7eb}
     .card .pad{padding:16px}
-    label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px}
-    input,select,textarea{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px;font:inherit}
-    input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 3px var(--ring)}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{display:inline-flex;gap:8px;align-items:center;background:#f1f5f9;border:1px solid #e2e8f0;padding:8px 10px;border-radius:999px}
+    .muted{color:var(--muted)} .hidden{display:none} .spacer{height:12px}
     .btn{appearance:none;border:none;background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
     .btn.secondary{background:#eef2ff;color:#1e3a8a}
-    .muted{color:var(--muted)}
-    .badge{display:inline-block;background:#eef2ff;color:#1e3a8a;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
-    .pill{display:inline-flex;gap:8px;align-items:center;background:#f1f5f9;border:1px solid #e2e8f0;padding:8px 10px;border-radius:999px}
-    .spacer{height:12px}
-    .hidden{display:none}
-    footer{padding:40px 16px;color:var(--muted);text-align:center}
+    input,select{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px;font:inherit}
+    input:focus,select:focus{outline:none;box-shadow:0 0 0 3px var(--ring)}
     .preview{max-width:100%;border-radius:10px;border:1px dashed #cbd5e1}
   </style>
   <meta name="theme-color" content="#2563eb" />
@@ -68,20 +59,13 @@
     <section id="view-hem" class="grid hidden">
       <div class="card"><div class="pad">
         <h2>Idag</h2>
-        <div class="row">
-          <div class="pill"><strong id="todayKcal">0</strong><span class="muted">kcal av</span> <strong id="goalKcal">1800</strong><span class="muted">kcal</span></div>
-          <div class="pill"><strong id="streak">0</strong><span class="muted">dagars streak</span></div>
-          <span class="badge" id="goalBadge">Mål: Vikt −0.0 kg</span>
-        </div>
+        <div class="pill"><strong id="todayKcal">0</strong><span class="muted">&nbsp;kcal av&nbsp;</span><strong id="goalKcal">1800</strong><span class="muted">&nbsp;kcal</span></div>
         <div class="spacer"></div>
         <div id="coachBubble" class="card" style="border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0"><div class="pad">
           <strong>Latmasken säger:</strong>
           <div id="coachMsg" class="muted">Hej! Sätt ett mål i Konto och fota din första måltid via Kamera 🐛</div>
         </div></div>
-      </div></div>
-
-      <div class="card"><div class="pad">
-        <h3>Dagens intag</h3>
+        <div class="spacer"></div>
         <div id="foodList" class="muted">Inget loggat ännu.</div>
       </div></div>
     </section>
@@ -95,7 +79,7 @@
         <div class="spacer"></div>
         <img id="photoPreview" class="preview hidden" alt="Förhandsvisning" />
         <div class="spacer"></div>
-        <div class="row">
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
           <select id="foodGuess">
             <option value="Pizza|850">🍕 Pizza (~850 kcal)</option>
             <option value="Kycklingsallad|420">🥗 Kycklingsallad (~420 kcal)</option>
@@ -123,7 +107,7 @@
         <h2>Viktkurva</h2>
         <canvas id="weightChart" height="220"></canvas>
         <div class="spacer"></div>
-        <div class="row">
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
           <input id="weightInput" type="number" step="0.1" placeholder="Dagens vikt (kg)" />
           <button class="btn" id="addWeightBtn">Lägg till</button>
           <button class="btn secondary" id="resetWeightBtn">Rensa (demo)</button>
@@ -132,7 +116,7 @@
 
       <div class="card"><div class="pad">
         <h3>Mål</h3>
-        <div class="row">
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
           <input id="goalKcalInput" type="number" placeholder="Dagligt mål (kcal)" />
           <input id="goalWeightInput" type="number" step="0.1" placeholder="Målvikt (kg)" />
           <button class="btn" id="saveGoalsBtn">Spara mål</button>
@@ -140,69 +124,23 @@
       </div></div>
     </section>
 
-    <!-- MEDALJER -->
-    <section id="view-medaljer" class="hidden grid">
-      <div class="card"><div class="pad">
-        <h2>Medaljer</h2>
-        <ul id="badgeList" class="muted" style="line-height:1.9">
-          <li>🏅 Första inloggningen</li>
-          <li>🏅 Första måltiden loggad</li>
-          <li>🏅 Tre dagar i rad</li>
-          <li>🏅 Första −1 kg</li>
-        </ul>
-      </div></div>
-    </section>
-
-    <!-- COACH -->
-    <section id="view-coach" class="hidden grid">
-      <div class="card"><div class="pad">
-        <h2>Latmasken coach</h2>
-        <p class="muted">I denna demo kör vi en regelbaserad coach. I riktiga systemet byts den mot GPT-driven coach med personlig ton.</p>
-        <div id="coachOutput" class="card" style="border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0"><div class="pad"></div></div>
-        <div class="spacer"></div>
-        <button class="btn" id="refreshCoach">Uppdatera coach</button>
-      </div></div>
-    </section>
-
-    <!-- KONTO -->
-    <section id="view-konto" class="hidden grid">
-      <div class="card"><div class="pad">
-        <h2>Konto</h2>
-        <div class="row">
-          <input id="emailInput" type="email" placeholder="E-post (demo – lokal)" />
-          <button class="btn" id="saveEmailBtn">Spara</button>
-        </div>
-        <p class="muted">Demo-läge: vi sparar allt lokalt i din webbläsare (localStorage). Inget skickas upp till server.</p>
-      </div></div>
-
-      <div class="card"><div class="pad">
-        <h3>Datahantering</h3>
-        <div class="row">
-          <button class="btn secondary" id="resetAllBtn">Rensa all demodata</button>
-        </div>
-      </div></div>
-    </section>
+    <!-- ÖVRIGT -->
+    <section id="view-medaljer" class="hidden grid"><div class="card"><div class="pad"><h2>Medaljer</h2><div class="muted">🏅 Första inloggningen · 🏅 Första måltiden · 🏅 3 dagar i rad</div></div></div></section>
+    <section id="view-coach" class="hidden grid"><div class="card"><div class="pad"><h2>Latmasken coach</h2><div id="coachOutput" class="muted">Regelbaserad demo – GPT kopplas in senare.</div><div class="spacer"></div><button class="btn" id="refreshCoach">Uppdatera coach</button></div></div></section>
+    <section id="view-konto" class="hidden grid"><div class="card"><div class="pad"><h2>Konto</h2><div class="row" style="display:flex;gap:10px;flex-wrap:wrap"><input id="emailInput" type="email" placeholder="E-post (lokalt)" /><button class="btn" id="saveEmailBtn">Spara</button></div><p class="muted">Allt sparas lokalt (localStorage).</p></div></div></section>
   
   <!-- Installationsbanner (PWA) -->
   <div id="installBanner" class="card hidden" style="position:fixed;left:16px;right:16px;bottom:16px;z-index:999;background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 8px 24px #00000022">
     <div class="pad" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-      <div class="row" style="gap:12px">
+      <div class="row" style="display:flex;gap:12px;align-items:center">
         <div class="worm" aria-hidden="true"></div>
-        <div>
-          <strong>Installera Latmasken?</strong>
-          <div class="muted" style="font-size:12px">Lägg till på hemskärmen för app-känsla</div>
-        </div>
+        <div><strong>Installera Latmasken?</strong><div class="muted" style="font-size:12px">Lägg till på hemskärmen för app-känsla</div></div>
       </div>
-      <div class="row" style="gap:8px">
-        <button id="installBtn" class="btn">Installera</button>
-        <button id="installClose" class="btn secondary">Inte nu</button>
-      </div>
+      <div class="row" style="display:flex;gap:8px"><button id="installBtn" class="btn">Installera</button><button id="installClose" class="btn secondary">Inte nu</button></div>
     </div>
   </div>
 
-  <footer>
-    <div>Latmasken • Demo (MVP) • © 2025</div>
-  </footer>
+  <footer><div class="muted" style="text-align:center;padding:24px">Latmasken • Demo (MVP) • © 2025</div></footer>
 
 <script>
 // ======= LOKAL LAGRING =======
@@ -222,291 +160,48 @@ const DB = {
 
 // ======= NAVIGATION =======
 const tabs = document.querySelectorAll('#tabs button');
-const views = {
-  hem: document.getElementById('view-hem'),
-  kamera: document.getElementById('view-kamera'),
-  vikt: document.getElementById('view-vikt'),
-  medaljer: document.getElementById('view-medaljer'),
-  coach: document.getElementById('view-coach'),
-  konto: document.getElementById('view-konto'),
-}
-
+const views = { hem:document.getElementById('view-hem'), kamera:document.getElementById('view-kamera'), vikt:document.getElementById('view-vikt'), medaljer:document.getElementById('view-medaljer'), coach:document.getElementById('view-coach'), konto:document.getElementById('view-konto') }
 tabs.forEach(btn=>btn.addEventListener('click',()=>{
-  tabs.forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active')
+  tabs.forEach(b=>b.classList.remove('active')); btn.classList.add('active')
   const target = btn.dataset.tab
-  Object.entries(views).forEach(([k,el])=>{
-    el.classList.toggle('hidden', k!==target)
-  })
-  if(target==='vikt') renderChart()
-  if(target==='hem' || target==='coach') updateCoach()
-  if(target==='hem') renderHome()
-  if(target==='kamera') renderMeals()
+  Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!==target))
+  if(target==='vikt') renderChart(); if(target==='hem'||target==='coach') updateCoach(); if(target==='hem') renderHome(); if(target==='kamera') renderMeals()
 }))
 
-// ======= HEM / DAGENS INTAG =======
-const todayKcalEl = document.getElementById('todayKcal')
-const goalKcalEl = document.getElementById('goalKcal')
-const foodListEl = document.getElementById('foodList')
-const goalBadge = document.getElementById('goalBadge')
-
-function kcalToday(){
-  const today = new Date().toISOString().slice(0,10)
-  return DB.meals.filter(m=>m.date.startsWith(today)).reduce((s,m)=>s+Number(m.kcal||0),0)
-}
-function streakDays(){
-  // enkel streak: antal dagar i rad med minst en inloggad måltid
-  let days = 0
-  for(let i=0;i<30;i++){
-    const d = new Date(); d.setDate(d.getDate()-i)
-    const key = d.toISOString().slice(0,10)
-    const has = DB.meals.some(m=>m.date.startsWith(key))
-    if(has) days++; else break
-  }
-  return days
-}
-function renderHome(){
-  goalKcalEl.textContent = DB.goalKcal
-  todayKcalEl.textContent = kcalToday()
-  document.getElementById('streak').textContent = streakDays()
-  // lista dagens måltider
-  const today = new Date().toISOString().slice(0,10)
-  const items = DB.meals.filter(m=>m.date.startsWith(today))
-  if(items.length===0){ foodListEl.textContent = 'Inget loggat ännu.'; }
-  else {
-    foodListEl.innerHTML = items.map(m=>`• ${m.name} – <strong>${m.kcal}</strong> kcal`).join('<br>')
-  }
-  // målbadge
-  const w = DB.weights
-  if(w.length>0 && DB.goalWeight>0){
-    const start = w[0].value, now = w[w.length-1].value
-    const diff = (start-now).toFixed(1)
-    goalBadge.textContent = `Mål: Vikt ${diff} kg / målvikt ${DB.goalWeight} kg`
-  } else {
-    goalBadge.textContent = 'Sätt din målvikt under Vikt > Mål'
-  }
-}
+// ======= HEM =======
+const todayKcalEl = document.getElementById('todayKcal'); const goalKcalEl = document.getElementById('goalKcal'); const foodListEl = document.getElementById('foodList')
+function kcalToday(){ const today=new Date().toISOString().slice(0,10); return DB.meals.filter(m=>m.date.startsWith(today)).reduce((s,m)=>s+Number(m.kcal||0),0) }
+function renderHome(){ goalKcalEl.textContent=DB.goalKcal; todayKcalEl.textContent=kcalToday(); const t=new Date().toISOString().slice(0,10); const items=DB.meals.filter(m=>m.date.startsWith(t)); foodListEl.innerHTML = items.length ? items.map(m=>`• ${m.name} – <strong>${m.kcal}</strong> kcal`).join('<br>') : 'Inget loggat ännu.' }
 
 // ======= KAMERA / MÅLTIDER =======
-const photoInput = document.getElementById('photoInput')
-const photoPreview = document.getElementById('photoPreview')
-const foodGuess = document.getElementById('foodGuess')
-const foodName = document.getElementById('foodName')
-const foodKcal = document.getElementById('foodKcal')
-const analyzeBtn = document.getElementById('analyzeBtn')
-const saveMealBtn = document.getElementById('saveMealBtn')
-const recentMeals = document.getElementById('recentMeals')
+const photoInput=document.getElementById('photoInput'), photoPreview=document.getElementById('photoPreview'), foodGuess=document.getElementById('foodGuess'), foodName=document.getElementById('foodName'), foodKcal=document.getElementById('foodKcal'), analyzeBtn=document.getElementById('analyzeBtn'), saveMealBtn=document.getElementById('saveMealBtn'), recentMeals=document.getElementById('recentMeals')
+photoInput.addEventListener('change', ev=>{ const f=ev.target.files?.[0]; foodName.value=''; foodKcal.value=''; if(!f){ photoPreview.classList.add('hidden'); return } const url=URL.createObjectURL(f); photoPreview.src=url; photoPreview.classList.remove('hidden') })
+foodGuess.addEventListener('change', ()=>{ const [n,k]=foodGuess.value.split('|'); if(n==='Eget val'){ foodName.value=''; foodKcal.value=''; return } foodName.value=n; foodKcal.value=k })
+analyzeBtn.addEventListener('click', ()=>{ analyzeBtn.disabled=true; const orig=analyzeBtn.textContent; analyzeBtn.textContent='Analyserar…'; setTimeout(()=>{ let pair=foodGuess?.value||''; if(!pair||pair.startsWith('Eget val')){ const opts=['Pizza|850','Kycklingsallad|420','Sushi 8 bitar|600','Pasta carbonara|950','Havregrynsgröt|320']; pair=opts[Math.floor(Math.random()*opts.length)] } const [n,k]=pair.split('|'); foodName.value=n; foodKcal.value=k; toast(`AI (mock): ${n} ~ ${k} kcal`); analyzeBtn.disabled=false; analyzeBtn.textContent=orig; saveMealBtn.focus() }, 800) })
+saveMealBtn.addEventListener('click', ()=>{ const name=foodName.value?.trim(); const kcal=Number(foodKcal.value||0); if(!name||!kcal){ return toast('Fyll i maträtt och kcal först.') } const items=DB.meals; items.push({name,kcal,date:new Date().toISOString()}); DB.meals=items; foodName.value=''; foodKcal.value=''; photoInput.value=''; photoPreview.classList.add('hidden'); renderMeals(); renderHome(); updateCoach(); document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active')); document.querySelector('[data-tab="hem"]').classList.add('active'); Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!=='hem')); toast('Måltid sparad!') })
+function renderMeals(){ const items=DB.meals.slice(-10).reverse(); recentMeals.innerHTML = items.length ? items.map(m=>`${new Date(m.date).toLocaleString('sv-SE')}: <strong>${m.name}</strong> – ${m.kcal} kcal`).join('<br>') : '—' }
 
-photoInput.addEventListener('change', ev=>{
-  const f = ev.target.files?.[0]
-  // Rensa fält varje gång man tar nytt foto
-  foodName.value=''; foodKcal.value='';
-  if(!f){ photoPreview.classList.add('hidden'); return }
-  const url = URL.createObjectURL(f)
-  photoPreview.src = url
-  photoPreview.classList.remove('hidden')
-})
+// ======= VIKT (mini-graf) =======
+function renderChart(){ const canvas=document.getElementById('weightChart'); if(!canvas) return; const ctx=canvas.getContext('2d'); const data=DB.weights; ctx.clearRect(0,0,canvas.width,canvas.height); if(!data||data.length===0){ ctx.fillStyle='#94a3b8'; ctx.font='14px Inter,sans-serif'; ctx.fillText('Lägg till din första vikt för att se grafen',10,24); return } const values=data.map(d=>Number(d.value)); const dpr=window.devicePixelRatio||1; canvas.width=canvas.clientWidth*dpr; canvas.height=canvas.clientHeight*dpr; ctx.scale(dpr,dpr); const PAD=24,w=canvas.clientWidth-PAD*2,h=canvas.clientHeight-PAD*2; const min=Math.min(...values),max=Math.max(...values),rng=(max-min)||1; ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=1; ctx.strokeRect(PAD,PAD,w,h); ctx.strokeStyle='#2563eb'; ctx.lineWidth=2; ctx.beginPath(); values.forEach((v,i)=>{ const x=PAD+(i/(values.length-1))*w; const y=PAD+(1-((v-min)/rng))*h; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y) }); ctx.stroke(); ctx.fillStyle='#2563eb'; values.forEach((v,i)=>{ const x=PAD+(i/(values.length-1))*w; const y=PAD+(1-((v-min)/rng))*h; ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill() }) }
+const weightInput=document.getElementById('weightInput'), addWeightBtn=document.getElementById('addWeightBtn'), resetWeightBtn=document.getElementById('resetWeightBtn')
+addWeightBtn.addEventListener('click',()=>{ const v=Number(weightInput.value); if(!v){ return toast('Ange en vikt först.') } const arr=DB.weights; arr.push({date:new Date().toISOString(),value:v}); DB.weights=arr; weightInput.value=''; renderChart(); renderHome(); updateCoach(); toast('Vikt tillagd!') })
+resetWeightBtn.addEventListener('click',()=>{ DB.weights=[]; renderChart(); renderHome(); updateCoach(); toast('Viktdata nollställd (demo).') })
 
-foodGuess.addEventListener('change', ()=>{
-  const [name,k] = foodGuess.value.split('|')
-  if(name==='Eget val'){ foodName.value=''; foodKcal.value=''; return }
-  foodName.value = name
-  foodKcal.value = k
-})
+// ======= MÅL & COACH =======
+const goalKcalInput=document.getElementById('goalKcalInput'), goalWeightInput=document.getElementById('goalWeightInput'), saveGoalsBtn=document.getElementById('saveGoalsBtn')
+saveGoalsBtn.addEventListener('click',()=>{ const gk=Number(goalKcalInput.value||0), gw=Number(goalWeightInput.value||0); if(gk>0) DB.goalKcal=gk; if(gw>0) DB.goalWeight=gw; renderHome(); updateCoach(); goalKcalInput.value=''; goalWeightInput.value=''; toast('Mål sparade!') })
+const coachOut=document.getElementById('coachOutput')
+function updateCoach(){ const kcal=kcalToday(), goal=DB.goalKcal, w=DB.weights; let note=''; if(kcal===0) note='Ny dag – ny chans! Fota första måltiden när du äter 🐛'; else if(kcal<goal*0.6) note='Snygg start! Du ligger bra till för att nå dagsmålet. 🟢'; else if(kcal<=goal) note='Bra fart! Du är nära dagsmålet – tänk protein och grönt till middag. 💪'; else note='Du passerade målet idag – helt okej! Drick vatten, ta en promenad, ny dag imorgon. 💙'; if(w.length>=2){ const diff=(w[w.length-2].value-w[w.length-1].value).toFixed(1); if(diff>0) note+=` \nVikten ner ${diff} kg – grymt!`; if(diff<0) note+=` \nLite uppgång är normalt. Du fixar det!` } coachOut && (coachOut.textContent=note) }
+document.getElementById('refreshCoach')?.addEventListener('click', updateCoach)
 
-analyzeBtn.addEventListener('click', ()=>{
-  // Simulerad AI-analys med tydlig feedback och liten fördröjning
-  analyzeBtn.disabled = true; const orig = analyzeBtn.textContent; analyzeBtn.textContent = 'Analyserar…';
-  setTimeout(()=>{
-    // Välj det som är valt i dropdown, annars slumpa ett vettigt förslag
-    let pair = foodGuess?.value || ''
-    if(!pair || pair.startsWith('Eget val')){
-      const opts = ['Pizza|850','Kycklingsallad|420','Sushi 8 bitar|600','Pasta carbonara|950','Havregrynsgröt|320']
-      pair = opts[Math.floor(Math.random()*opts.length)]
-    }
-    const [n,k] = pair.split('|')
-    foodName.value = n; foodKcal.value = k
-    toast(`AI (mock): ${n} ~ ${k} kcal`)
-    analyzeBtn.disabled = false; analyzeBtn.textContent = orig
-    saveMealBtn.focus()
-  }, 800)
-})
-
-saveMealBtn.addEventListener('click', ()=>{
-  const name = foodName.value?.trim(); const kcal = Number(foodKcal.value||0)
-  if(!name || !kcal){ return toast('Fyll i maträtt och kcal först.') }
-  const items = DB.meals
-  items.push({ name, kcal, date: new Date().toISOString() })
-  DB.meals = items
-  // rensa inputs & preview
-  foodName.value=''; foodKcal.value=''; photoInput.value=''; photoPreview.classList.add('hidden')
-  // uppdatera vyer
-  renderMeals(); renderHome(); updateCoach();
-  // hoppa till Hem så man ser summering direkt
-  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'))
-  document.querySelector('[data-tab="hem"]').classList.add('active')
-  Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!=='hem'))
-  toast('Måltid sparad!')
-})
-
-function renderMeals(){
-  const items = DB.meals.slice(-10).reverse()
-  if(items.length===0){ recentMeals.textContent = '—'; return }
-  recentMeals.innerHTML = items.map(m=>{
-    const t = new Date(m.date).toLocaleString('sv-SE')
-    return `${t}: <strong>${m.name}</strong> – ${m.kcal} kcal`
-  }).join('<br>')
-}
-
-// ======= VIKT / CHART (mini offline-graf, ingen extern lib) =======
-let chart
-function renderChart(){
-  const canvas = document.getElementById('weightChart')
-  if(!canvas) return
-  const ctx = canvas.getContext('2d')
-  const data = DB.weights
-  // Rensa
-  ctx.clearRect(0,0,canvas.width,canvas.height)
-  // Om ingen data – visa hint
-  if(!data || data.length===0){
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '14px Inter, sans-serif';
-    ctx.fillText('Lägg till din första vikt för att se grafen', 10, 24)
-    return
-  }
-  const values = data.map(d=>Number(d.value))
-  // Skala för pixel-density
-  const dpr = window.devicePixelRatio||1
-  canvas.width = canvas.clientWidth * dpr
-  canvas.height = canvas.clientHeight * dpr
-  ctx.scale(dpr,dpr)
-  const PAD = 24
-  const w = canvas.clientWidth - PAD*2
-  const h = canvas.clientHeight - PAD*2
-  const min = Math.min(...values)
-  const max = Math.max(...values)
-  const rng = (max-min)||1
-  // Bakgrundsram
-  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1
-  ctx.strokeRect(PAD, PAD, w, h)
-  // Linjegraf
-  ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2
-  ctx.beginPath()
-  values.forEach((v,i)=>{
-    const x = PAD + (i/(values.length-1))*w
-    const y = PAD + (1-((v-min)/rng))*h
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y)
-  })
-  ctx.stroke()
-  // Punkter
-  ctx.fillStyle = '#2563eb'
-  values.forEach((v,i)=>{
-    const x = PAD + (i/(values.length-1))*w
-    const y = PAD + (1-((v-min)/rng))*h
-    ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill()
-  })
-}
-
-const weightInput = document.getElementById('weightInput')
-const addWeightBtn = document.getElementById('addWeightBtn')
-const resetWeightBtn = document.getElementById('resetWeightBtn')
-
-addWeightBtn.addEventListener('click',()=>{
-  const v = Number(weightInput.value)
-  if(!v){ return toast('Ange en vikt först.') }
-  const arr = DB.weights; arr.push({ date:new Date().toISOString(), value:v }); DB.weights = arr
-  weightInput.value=''; renderChart(); renderHome(); updateCoach(); toast('Vikt tillagd!')
-})
-resetWeightBtn.addEventListener('click',()=>{ DB.weights = []; renderChart(); renderHome(); updateCoach(); toast('Viktdata nollställd (demo).') })
-
-// MÅL
-const goalKcalInput = document.getElementById('goalKcalInput')
-const goalWeightInput = document.getElementById('goalWeightInput')
-const saveGoalsBtn = document.getElementById('saveGoalsBtn')
-
-saveGoalsBtn.addEventListener('click',()=>{
-  const gk = Number(goalKcalInput.value||0)
-  const gw = Number(goalWeightInput.value||0)
-  if(gk>0) DB.goalKcal = gk
-  if(gw>0) DB.goalWeight = gw
-  renderHome(); updateCoach(); goalKcalInput.value=''; goalWeightInput.value=''; toast('Mål sparade!')
-})
-
-// ======= COACH (regelbaserad demo) =======
-const coachOut = document.querySelector('#coachOutput .pad')
-const coachMsg = document.getElementById('coachMsg')
-const refreshCoach = document.getElementById('refreshCoach')
-
-function updateCoach(){
-  const kcal = kcalToday(); const goal = DB.goalKcal
-  const w = DB.weights; let note = ''
-  if(kcal===0){ note = 'Ny dag – ny chans! Fota första måltiden när du äter 🐛'; }
-  else if(kcal < goal*0.6){ note = 'Snygg start! Du ligger bra till för att nå dagsmålet. 🟢'; }
-  else if(kcal <= goal){ note = 'Bra fart! Du är nära dagsmålet – tänk protein och grönt till middag. 💪'; }
-  else { note = 'Du passerade målet idag – helt okej! Drick vatten, ta en promenad, ny dag imorgon. 💙'; }
-  if(w.length>=2){
-    const diff = (w[w.length-2].value - w[w.length-1].value).toFixed(1)
-    if(diff>0){ note += ` 
-Vikten ner ${diff} kg – grymt!` }
-    if(diff<0){ note += ` 
-Lite uppgång är normalt. Du fixar det!` }
-  }
-  (coachMsg||coachOut).textContent = note
-  coachOut.textContent = note
-}
-refreshCoach.addEventListener('click', updateCoach)
-
-// ======= KONTO =======
-const emailInput = document.getElementById('emailInput')
-const saveEmailBtn = document.getElementById('saveEmailBtn')
-const resetAllBtn = document.getElementById('resetAllBtn')
-
-saveEmailBtn.addEventListener('click',()=>{ DB.email = emailInput.value||''; toast('E-post sparad (lokalt).') })
-resetAllBtn.addEventListener('click',()=>{ if(confirm('Rensa all demodata?')){ DB.reset(); location.reload() } })
-
-// ======= UI HELPERS =======
-function toast(msg){
-  const el = document.createElement('div')
-  el.textContent = msg
-  el.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;z-index:9999;opacity:.96;'
-  document.body.appendChild(el)
-  setTimeout(()=>el.remove(), 2000)
-}
-
-// INIT
-(function init(){
-  goalKcalEl.textContent = DB.goalKcal
-  emailInput.value = DB.email
-  renderHome(); renderMeals(); renderChart(); updateCoach();
-  // Starta på Kamera (döljer övriga sektioner)
-  document.querySelectorAll('#tabs button').forEach(btn => btn.classList.remove('active'))
-  document.querySelector('[data-tab="kamera"]').classList.add('active')
-  Object.entries(views).forEach(([k, el]) => el.classList.toggle('hidden', k !== 'kamera'))
-
-  // Registrera service worker (kräver https eller localhost)
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/sw.js').catch(console.warn)
-  }
-})();
-
-// ======= PWA INSTALL =======
-let deferredPrompt
-const banner = document.getElementById('installBanner')
-const btnInstall = document.getElementById('installBtn')
-const btnClose = document.getElementById('installClose')
-
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault();
-  deferredPrompt = e; banner.classList.remove('hidden')
-})
-btnInstall?.addEventListener('click', async ()=>{
-  if(!deferredPrompt) return
-  deferredPrompt.prompt()
-  const { outcome } = await deferredPrompt.userChoice
-  deferredPrompt = null
-  banner.classList.add('hidden')
-})
-btnClose?.addEventListener('click', ()=> banner.classList.add('hidden'))
+// ======= KONTO & PWA =======
+const emailInput=document.getElementById('emailInput'); document.getElementById('saveEmailBtn')?.addEventListener('click',()=>{ DB.email=emailInput.value||''; toast('E-post sparad (lokalt).') })
+function toast(msg){ const el=document.createElement('div'); el.textContent=msg; el.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;z-index:9999;opacity:.96;'; document.body.appendChild(el); setTimeout(()=>el.remove(),2000) }
+(function init(){ goalKcalEl.textContent=DB.goalKcal; emailInput && (emailInput.value=DB.email); renderHome(); renderMeals(); renderChart(); updateCoach(); document.querySelectorAll('#tabs button').forEach(btn=>btn.classList.remove('active')); document.querySelector('[data-tab="kamera"]').classList.add('active'); Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!=='kamera')); if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(console.warn) } })();
+let deferredPrompt; const banner=document.getElementById('installBanner'), btnInstall=document.getElementById('installBtn'), btnClose=document.getElementById('installClose')
+window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; banner?.classList.remove('hidden') })
+btnInstall?.addEventListener('click', async ()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; banner?.classList.add('hidden') })
+btnClose?.addEventListener('click', ()=> banner?.classList.add('hidden'))
 </script>
 </body>
 </html>
